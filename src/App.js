@@ -1,24 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useContext } from 'react';
+import { GlobalContext } from './components/tempStore';
+import MainMenu from './components/MainMenu';
+import ChatWindow from './components/ChatWindow';
 import './App.css';
 
+import Slide from '@material-ui/core/Slide';
+
 function App() {
+  const { showChat } = useContext(GlobalContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Slide
+        direction='down'
+        in={!showChat}
+        timeout={{
+          enter: 250,
+          exit: 100
+        }}
+        mountOnEnter
+        unmountOnExit>
+        <div> {/* this div is needed for transition/slide to work */}
+          <MainMenu />
+        </div>
+      </Slide>
+      <Slide 
+        direction='up' 
+        in={showChat}
+        timeout={{
+          enter: 250,
+          exit: 100
+        }}
+        mountOnEnter 
+        unmountOnExit >
+        <div> {/* this div is needed for transition/slide to work */}
+          <ChatWindow />
+        </div>
+      </Slide>
     </div>
   );
 }

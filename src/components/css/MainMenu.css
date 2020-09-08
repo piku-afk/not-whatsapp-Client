@@ -1,0 +1,21 @@
+/*****************
+  Nav Bar
+*****************/
+
+.main__nav.MuiAppBar-root,
+.main__content > .MuiAppBar-root {
+  background-color: #075E54 !important;
+}
+.main__nav > .MuiToolbar-regular {
+  min-height: 64px;
+}
+.main__content  .MuiTabs-flexContainer {
+  justify-content: space-around;
+}
+.main__content .MuiTabs-flexContainer button {
+  flex-grow: 1;
+}
+.main__content .MuiTabs-indicator {
+  background-color: #fff;
+  height: 4px;
+}

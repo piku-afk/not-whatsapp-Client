@@ -1,0 +1,11 @@
+/* .chat__container.MuiContainer-root {
+  min-height: 100vh;
+  border: 1px solid red;
+} */
+
+.chat__nav.MuiAppBar-root {
+  background-color: #075E54;
+}
+.chat__nav .MuiIconButton-root {
+  color: white;
+}
