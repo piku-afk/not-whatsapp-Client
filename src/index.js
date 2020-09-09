@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 
-import GlobalStore from './components/tempStore';
+import GlobalStore from './components/GlobalStore';
 
 ReactDOM.render(
   // <React.StrictMode>

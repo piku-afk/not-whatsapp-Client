@@ -9,3 +9,6 @@
 .chat__nav .MuiIconButton-root {
   color: white;
 }
+.chat__nav .MuiIconButton-root.more-options {
+  margin-left: auto;
+}
