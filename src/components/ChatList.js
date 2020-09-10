@@ -1,60 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useGlobalStore } from './GlobalStore';
+import { projectDatabase } from '../firebaseConfig';
 
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { projectDatabase } from '../firebaseConfig';
 
 export default function ChatList() {
 
-  const { setShowChat } = useGlobalStore();
+  const { userId, setShowChat, setChatScreenUser } = useGlobalStore();
   const [chatList, setChatList] = useState([]);
 
   useEffect(() => {
 
-    const unsub = projectDatabase.collection('users')
-      .doc('7278215186')
-      .collection('chats')
-      .onSnapshot(snapshot => {    
-        let temp = [];
-        snapshot.docs.forEach(doc => {
-          temp.push({
-            number: doc.id,
-            ...doc.data()
-          });
-        })
-        return setChatList(temp);
-      });
+  const unsub = 
+    projectDatabase.collection('users')
+      .doc(userId.toString())
+      .onSnapshot(doc => setChatList(doc.data().conversations), (err) => alert(err));
 
-    return () => {
-      // this is a cleanup function that react will run when a component using the hook unmounts
-      unsub()
-    }
-
-  }, []);
-
-  console.log(chatList);
+  return () => {
+    unsub();
+  };
+  
+  }, [userId]);
 
   return (
-    <Container className='chat__container' disableGutters>
+    <Container className='chatlist__container' disableGutters>
       <List>
-        {chatList.map(item => getList(item, setShowChat))}
+        {chatList.map(item => getList(item, setShowChat, setChatScreenUser))}
       </List>
     </Container>
   );
 }
 
-function getList(item, setShowChat) {
+function getList(item, setShowChat, setChatScreenUser) {
   return (
     <ListItem 
-      key={item.number} 
+      key={item.userId} 
       divider 
       button 
-      onClick={() => setShowChat(true)} >
+      onClick={() => {
+        setShowChat(true);
+        setChatScreenUser(item);
+      }} >
       <ListItemText>
-        {item.name}
+        {item.savedName}
       </ListItemText>
     </ListItem>
   );

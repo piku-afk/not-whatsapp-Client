@@ -5,11 +5,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { Menu, MenuItem } from '@material-ui/core';
 
-export default function ChatNav() {
+export default function ChatNav({name}) {
 
   const { setShowChat, setShowContactDetail } = useContext(GlobalContext);
 
@@ -23,14 +24,14 @@ export default function ChatNav() {
   };
 
   return (
-    <AppBar className='chat__nav' position='static'>
+    <AppBar className='chat__nav' position='fixed'>
       <Toolbar>
         <IconButton onClick={() => setShowChat(false)}>
           <ArrowBackIcon />
         </IconButton>
 
         <Typography variant='h6'>
-          Piyush
+          {name}
         </Typography>
 
         <IconButton className='more-options' onClick={handleClick}>

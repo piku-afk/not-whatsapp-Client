@@ -9,10 +9,16 @@ export function useGlobalStore() {
 
 export default function GlobalStore({children}) {
 
-  const [showChat, setShowChat] = useState(true);
+  const [userId, setUserId] = useState(7278215186);
+  const [chatScreenUser, setChatScreenUser] = useState(null);
+  const [showChat, setShowChat] = useState(false);
   const [showContactDetail, setShowContactDetail] = useState(false);
 
   const value = {
+    userId,
+    setUserId,
+    chatScreenUser,
+    setChatScreenUser,
     showChat,
     setShowChat,
     showContactDetail,
