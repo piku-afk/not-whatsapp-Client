@@ -13,15 +13,14 @@ export default function ChatForm({conversationId}) {
   const { userId } = useGlobalStore();
   const [newMessage, setNewMessage] = useState(null);
   const ref = useRef(null);
-  console.log(conversationId);
 
   useEffect(() => {
 
     if (newMessage !== null) {
       projectDatabase.collection('conversations')
-      .doc(conversationId)
-      .collection('messages')
-      .add(newMessage);
+        .doc(conversationId)
+        .collection('messages')
+        .add(newMessage);
     }
     setNewMessage(null);
 
@@ -40,8 +39,6 @@ export default function ChatForm({conversationId}) {
     });
     ref.current.value = '';
   };
-
-  console.log(newMessage)
 
   return (
     <Container className='chat__form' >

@@ -19,3 +19,7 @@
   background-color: #fff;
   height: 4px;
 }
+
+.chatlist__container .MuiListItem-root {
+  background-color: #f5f5f5;
+}

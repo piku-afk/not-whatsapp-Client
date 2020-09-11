@@ -9,9 +9,8 @@ import { projectDatabase } from '../firebaseConfig';
 import Container from '@material-ui/core/Container';
 import ChatForm from './ChatForm';
 
-export default function ChatWindow() {
+export default function ChatScreen() {
   const { chatScreenUser } = useGlobalStore();
-  console.log(chatScreenUser.conversationId);
   const [conversationId,  setConversationId] = useState(0);
   const [messages, setMessages] = useState([]);
   
@@ -19,19 +18,22 @@ export default function ChatWindow() {
     
     setConversationId(chatScreenUser.conversationId);
 
-    const unsub = 
+    let unsub = () => {};
+    if(conversationId) {
+      unsub = 
       projectDatabase.collection('conversations')
-        .doc(conversationId.toString())
-        .collection('messages')
-        .orderBy('timestamp', 'asc')
-        .onSnapshot(snapshot => {
-          let temp = [];
-          snapshot.docs.map(doc => temp.push({
-            id: doc.id,
-            ...doc.data()
-          }));
-          setMessages(temp);
-        }, (err) => alert(err));
+      .doc(conversationId.toString())
+      .collection('messages')
+      .orderBy('timestamp', 'asc')
+      .onSnapshot(snapshot => {
+        let temp = [];
+        snapshot.docs.map(doc => temp.push({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setMessages(temp);
+      }, (err) => alert(err));
+    }
 
     return () => {
       unsub();
@@ -41,7 +43,7 @@ export default function ChatWindow() {
 
    return (
        <Container className='chat__container' maxWidth='sm' disableGutters>
-         <ChatNav name={chatScreenUser.savedName} />
+         <ChatNav name={chatScreenUser?.savedName} />
          <ChatBody messages={messages} />
          <ChatForm conversationId={conversationId} />
        </Container>

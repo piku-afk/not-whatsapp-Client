@@ -14,10 +14,14 @@ export default function ChatList() {
 
   useEffect(() => {
 
-  const unsub = 
+  let unsub = () => {};
+
+  if(userId) {
+    unsub = 
     projectDatabase.collection('users')
       .doc(userId.toString())
       .onSnapshot(doc => setChatList(doc.data().conversations), (err) => alert(err));
+  }
 
   return () => {
     unsub();

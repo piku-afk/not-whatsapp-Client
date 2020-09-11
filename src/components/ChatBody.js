@@ -33,7 +33,7 @@ function Message({message, userId}) {
   return (
     <>
       <Paper className={`${sender && 'right'}`} elevation={1}>
-        <Typography variant='body2'>
+        <Typography variant='body1'>
           {message?.body}
         </Typography>
       </Paper>
