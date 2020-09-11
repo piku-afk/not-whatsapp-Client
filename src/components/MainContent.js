@@ -6,6 +6,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ChatList from './ChatList';
+import ContactList from './ContactList';
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -61,7 +62,7 @@ export default function MainContent() {
           <ChatList />
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          Contacts
+          <ContactList />
         </TabPanel>
       </SwipeableViews>
     </div>

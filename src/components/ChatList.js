@@ -4,16 +4,15 @@ import { projectDatabase } from '../firebaseConfig';
 
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import ChatListItem from './ChatListItem';
 
 export default function ChatList() {
 
   const { userId, setShowChat, setChatScreenUser } = useGlobalStore();
   const [chatList, setChatList] = useState([]);
+  
 
   useEffect(() => {
-
   let unsub = () => {};
 
   if(userId) {
@@ -22,6 +21,8 @@ export default function ChatList() {
       .doc(userId.toString())
       .onSnapshot(doc => setChatList(doc.data().conversations), (err) => alert(err));
   }
+
+ 
 
   return () => {
     unsub();
@@ -32,25 +33,10 @@ export default function ChatList() {
   return (
     <Container className='chatlist__container' disableGutters>
       <List>
-        {chatList.map(item => getList(item, setShowChat, setChatScreenUser))}
+        {chatList.map(item => (
+          <ChatListItem key={item.userId} item={item} setShowChat={setShowChat} setChatScreenUser={setChatScreenUser} />
+        ))}
       </List>
     </Container>
-  );
-}
-
-function getList(item, setShowChat, setChatScreenUser) {
-  return (
-    <ListItem 
-      key={item.userId} 
-      divider 
-      button 
-      onClick={() => {
-        setShowChat(true);
-        setChatScreenUser(item);
-      }} >
-      <ListItemText>
-        {item.savedName}
-      </ListItemText>
-    </ListItem>
   );
 }

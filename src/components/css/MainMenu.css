@@ -9,6 +9,14 @@
 .main__nav > .MuiToolbar-regular {
   min-height: 64px;
 }
+.main__nav .MuiIconButton-root.more-options {
+  margin-left: auto;
+  color: white;
+}
+
+/*****************
+  Main Content
+*****************/
 .main__content  .MuiTabs-flexContainer {
   justify-content: space-around;
 }

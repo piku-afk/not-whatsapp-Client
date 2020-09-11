@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { GlobalContext } from './components/GlobalStore';
 import MainMenu from './components/MainMenu';
 import ChatWindow from './components/ChatScreen';
@@ -14,11 +14,6 @@ function App() {
     showChat, 
     showContactDetail
   } = useContext(GlobalContext);
-
-  useEffect(() => {
-    window.scrollTo(0, 1);
-    console.log('scrolled to (0,1)');
-  }, []);
 
   return (
     <div className="app">
