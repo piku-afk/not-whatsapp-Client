@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { GlobalContext } from './components/GlobalStore';
+import React from 'react';
+import { useGlobalStore } from './components/GlobalStore';
 import MainMenu from './components/MainMenu';
 import ChatWindow from './components/ChatScreen';
 import './App.css';
@@ -13,7 +13,7 @@ function App() {
     showLogin,
     showChat, 
     showContactDetail
-  } = useContext(GlobalContext);
+  } = useGlobalStore();
 
   return (
     <div className="app">
@@ -29,7 +29,7 @@ function wholeApp(showChat, showContactDetail) {
     <>
       <Slide
         direction='down'
-        in={!showChat && !showContactDetail }
+        in={!showChat && !showContactDetail}
         timeout={{
           enter: 250,
           exit: 100

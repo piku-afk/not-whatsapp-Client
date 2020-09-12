@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { useGlobalStore } from './GlobalStore';
+import { projectDatabase } from '../firebaseConfig';
 import './css/Login.css';
 
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { projectDatabase } from '../firebaseConfig';
 
 export default function Login() {
 
@@ -62,7 +62,8 @@ function SignIn({handleSignIn, setShowSignUpForm}) {
         } else {
           setError('There is no account with this number. \nClick on create a account.');
         }
-      });
+      })
+      .catch(err => alert((err)));
 
   }
 

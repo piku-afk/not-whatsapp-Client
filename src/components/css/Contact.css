@@ -1,0 +1,30 @@
+.contactList__container {
+  min-height: 85vh;
+}
+
+/*******************
+  Contact Detail Nav
+*******************/
+.contact-details__nav.MuiAppBar-root {
+  background-color: #075E54;
+}
+.contact-details__nav .MuiIconButton-root {
+  color: #fff;
+}
+
+/*******************
+  Contact Detail Body
+*******************/
+.contact-details__body.MuiContainer-root {
+  padding-top: 5%;
+}
+.contact-details__body .MuiTypography-root > .normal{
+  font-weight: normal;
+}
+.contact-details__body .MuiButton-root, 
+.contact-details__body .MuiButton-root:hover {
+  margin: 8px 0;
+  background-color: #25D366;
+  color: #f5f5f5;
+  letter-spacing: 1px;
+}

@@ -8,23 +8,23 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
 
-export default function ChatForm({conversationId}) {
+export default function ChatForm() {
 
-  const { userId } = useGlobalStore();
+  const { userId, showContactUser } = useGlobalStore();
   const [newMessage, setNewMessage] = useState(null);
   const ref = useRef(null);
-
+  
   useEffect(() => {
 
     if (newMessage !== null) {
       projectDatabase.collection('conversations')
-        .doc(conversationId)
+        .doc(showContactUser.conversationId)
         .collection('messages')
         .add(newMessage);
     }
     setNewMessage(null);
 
-  }, [conversationId, newMessage])
+  }, [showContactUser, newMessage])
 
   function hanldeSubmit(e) {
     e.preventDefault();

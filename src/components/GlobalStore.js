@@ -25,24 +25,24 @@ export default function GlobalStore({children}) {
       return true;
     }
   });
-  const [chatScreenUser, setChatScreenUser] = useState({
-    conversationId: '',
-    savedName: '',
-  });
+  const [chatScreenUserId, setChatScreenUserId] = useState(null);
   const [showChat, setShowChat] = useState(false);
   const [showContactDetail, setShowContactDetail] = useState(false);
+  const [showContactUser, setShowContactUser] = useState({});
 
   const value = {
     userId,
     setUserId,
     showLogin,
     setShowLogin,
-    chatScreenUser,
-    setChatScreenUser,
     showChat,
     setShowChat,
+    showContactUser,
+    setShowContactUser,
     showContactDetail,
-    setShowContactDetail
+    setShowContactDetail,
+    chatScreenUserId,
+    setChatScreenUserId
   };
 
   useEffect(() => {

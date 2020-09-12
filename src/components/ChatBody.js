@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useGlobalStore } from './GlobalStore';
+import { projectDatabase } from '../firebaseConfig';
 
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -9,21 +10,50 @@ function scrollToBottom(ref) {
   window.scrollTo(0, ref.current.offsetTop);
 };
 
-export default function ChatBody({messages}) {
+export default function ChatBody() {
 
+  const [messages, setMessages] = useState([]);
+  const chatBodyRef = useRef(null);
   const bottomRef = useRef(null);
-  const { userId } = useGlobalStore();
+  const { userId, showContactUser } = useGlobalStore();
 
   useEffect(() => {
-    scrollToBottom(bottomRef);
-  }, [messages]);
+    let unsub = () => {};
+    if(showContactUser.conversationId) {
+      unsub = 
+      projectDatabase.collection('conversations')
+      .doc(showContactUser.conversationId)
+      .collection('messages')
+      .orderBy('timestamp', 'asc')
+      .onSnapshot(snapshot => {
+        let temp = [];
+        snapshot.docs.map(doc => temp.push({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setMessages(temp);
+        //scrolling to bottom
+        const viewportHeight = window.screen.height - 66;
+        const chatBodyHeight = chatBodyRef.current.offsetHeight;
+        if(chatBodyHeight > viewportHeight) {
+          scrollToBottom(bottomRef);
+        }
+      }, (err) => alert(err));
+    };
+
+    return () => {
+      unsub();
+    };
+
+
+  }, [showContactUser]);
 
   return (
-    <Container className='chat__body'>
+    <Container ref={chatBodyRef} className='chat__body'>
       {messages.map(message => (
         <Message key={message.id} message={message} userId={userId} />
       ))}
-      <div ref={bottomRef} id='bottom-div' />
+      <div ref={bottomRef} className='bottom-div' />
     </Container>
   );
 }
@@ -31,13 +61,10 @@ export default function ChatBody({messages}) {
 function Message({message, userId}) {
   const sender = message.sender === userId;
   return (
-    <>
       <Paper className={`${sender && 'right'}`} elevation={1}>
         <Typography variant='body1'>
           {message?.body}
         </Typography>
       </Paper>
-
-    </>
   );
 }

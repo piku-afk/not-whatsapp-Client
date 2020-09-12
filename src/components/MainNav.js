@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGlobalStore } from './GlobalStore';
 import './css/MainMenu.css';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -12,11 +13,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 export default function MainNav() {
   //for menu element
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { setShowLogin } = useGlobalStore();
 
   function handleLogout() {
     localStorage.setItem('not-whatsapp-id', JSON.stringify(null));
     //forcing page to reload
-    window.location.reload();
+    setShowLogin(true);
   }
 
   return (

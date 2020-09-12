@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import ChatNav from './ChatNav';
 import ChatBody from './ChatBody';
 import './css/ChatScreen.css';
@@ -10,42 +10,27 @@ import Container from '@material-ui/core/Container';
 import ChatForm from './ChatForm';
 
 export default function ChatScreen() {
-  const { chatScreenUser } = useGlobalStore();
-  const [conversationId,  setConversationId] = useState(0);
-  const [messages, setMessages] = useState([]);
+  const { userId, chatScreenUserId, setShowContactUser } = useGlobalStore();
   
   useEffect(() => {
-    
-    setConversationId(chatScreenUser.conversationId);
 
-    let unsub = () => {};
-    if(conversationId) {
-      unsub = 
-      projectDatabase.collection('conversations')
-      .doc(conversationId.toString())
-      .collection('messages')
-      .orderBy('timestamp', 'asc')
-      .onSnapshot(snapshot => {
-        let temp = [];
-        snapshot.docs.map(doc => temp.push({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setMessages(temp);
-      }, (err) => alert(err));
-    }
+  projectDatabase
+    .collection('users')
+    .doc(userId.toString())
+    .get()
+    .then(doc => {
+      setShowContactUser(
+        doc.data().contacts.filter(contact => 
+          contact.userId === chatScreenUserId)[0]);
+    });
 
-    return () => {
-      unsub();
-    };
-
-  }, [chatScreenUser, conversationId]);
+  }, [chatScreenUserId, userId, setShowContactUser]);
 
    return (
        <Container className='chat__container' maxWidth='sm' disableGutters>
-         <ChatNav name={chatScreenUser?.savedName} />
-         <ChatBody messages={messages} />
-         <ChatForm conversationId={conversationId} />
+         <ChatNav />
+         <ChatBody />
+         <ChatForm />
        </Container>
    );
 }

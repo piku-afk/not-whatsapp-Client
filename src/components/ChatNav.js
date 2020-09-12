@@ -10,9 +10,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-export default function ChatNav({name}) {
+export default function ChatNav() {
 
-  const { setShowChat, setShowContactDetail } = useContext(GlobalContext);
+  const { showContactUser, setShowChat, setShowContactDetail } = useContext(GlobalContext);
 
   //for menu element
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -31,7 +31,7 @@ export default function ChatNav({name}) {
         </IconButton>
 
         <Typography variant='h6'>
-          {name}
+          {showContactUser.savedName}
         </Typography>
 
         <IconButton className='more-options' onClick={handleClick}>

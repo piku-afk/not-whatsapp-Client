@@ -8,7 +8,7 @@ import ChatListItem from './ChatListItem';
 
 export default function ChatList() {
 
-  const { userId, setShowChat, setChatScreenUser } = useGlobalStore();
+  const { userId } = useGlobalStore();
   const [chatList, setChatList] = useState([]);
   
 
@@ -22,8 +22,6 @@ export default function ChatList() {
       .onSnapshot(doc => setChatList(doc.data().conversations), (err) => alert(err));
   }
 
- 
-
   return () => {
     unsub();
   };
@@ -34,7 +32,7 @@ export default function ChatList() {
     <Container className='chatlist__container' disableGutters>
       <List>
         {chatList.map(item => (
-          <ChatListItem key={item.userId} item={item} setShowChat={setShowChat} setChatScreenUser={setChatScreenUser} />
+          <ChatListItem key={item.userId} chatScreenUserId={item.userId}/>
         ))}
       </List>
     </Container>

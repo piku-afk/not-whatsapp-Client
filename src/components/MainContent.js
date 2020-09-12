@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './css/MainMenu.css'
 
 import SwipeableViews from 'react-swipeable-views';
@@ -22,7 +22,6 @@ function TabPanel(props) {
 
 export default function MainContent() {
   const [tabValue, setTabValue] = useState(0);
-  const [fixedTab, setFixedTab] = useState(false);
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
@@ -31,22 +30,9 @@ export default function MainContent() {
     setTabValue(index);
   };
 
-  useEffect(() => {
-    const tabs = document.querySelector('.main__content .MuiAppBar-root').offsetTop;
-    
-    window.onscroll = () => {
-      if(window.pageYOffset > tabs) {
-        setFixedTab(true);
-      } else {
-        setFixedTab(false)
-      }
-    };
-
-  }, []);
-
   return (
     <div className='main__content'>
-      <AppBar position={ fixedTab ? 'fixed' : "static"}>
+      <AppBar position="static">
         <Tabs value={tabValue} onChange={handleChange}>
           <Tab label="Chats" />
           <Tab label="Contacts" />
