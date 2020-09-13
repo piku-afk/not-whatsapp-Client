@@ -70,7 +70,7 @@ function SignIn({handleSignIn, setShowSignUpForm}) {
   return (
     <>
       <Typography variant='h4' align='center'>
-        Sign In
+        Sign in to your account
       </Typography>
       <form className='login__form'>
         <TextField
@@ -114,12 +114,12 @@ function SignUp({handleSignUp}) {
       setError({ name: '', number: 'Phone number cannot be empty' });
       return;
     }
-    if(numberValue.length !== 10) {
-      setError({ name: '', number: 'Enter 10 digits valid phone number' });
-      return;
-    }
     if(nameValue.length === 0) {
       setError({ name: 'Name cannot be empty', number: '' });
+      return;
+    }
+    if(numberValue.length !== 10) {
+      setError({ name: '', number: 'Enter 10 digits valid phone number' });
       return;
     }
 
@@ -136,7 +136,8 @@ function SignUp({handleSignUp}) {
             .doc(numberValue.toString())
             .set({
               name: nameValue,
-              conversations: []
+              conversations: [],
+              contacts: []
             });
           handleSignUp();
         }
@@ -146,7 +147,7 @@ function SignUp({handleSignUp}) {
   return (
     <>
       <Typography variant='h4' align='center'>
-        Sign Up
+        Create an account
       </Typography>
       <form className='login__form'>
         <TextField

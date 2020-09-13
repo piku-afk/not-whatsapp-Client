@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.2.1",
     "firebase": "^7.19.1",
     "react": "^16.13.1",
+    "react-beforeunload": "^2.2.4",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "react-swipeable-views": "^0.13.9"

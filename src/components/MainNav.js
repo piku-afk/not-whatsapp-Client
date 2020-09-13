@@ -16,8 +16,7 @@ export default function MainNav() {
   const { setShowLogin } = useGlobalStore();
 
   function handleLogout() {
-    localStorage.setItem('not-whatsapp-id', JSON.stringify(null));
-    //forcing page to reload
+    localStorage.clear();
     setShowLogin(true);
   }
 

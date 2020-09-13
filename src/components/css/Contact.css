@@ -1,5 +1,46 @@
+/*******************
+  Contact List
+*******************/
 .contactList__container {
-  min-height: 85vh;
+  background-color: #f5f5f5;
+  position: relative;
+}
+.contactList__container .MuiList-root {
+  height: 83vh;
+  overflow-y: scroll;
+}
+
+.contactList__container .MuiFab-root,
+.contactList__container .MuiFab-root:hover {
+  background-color: #25D366;
+  color: #f5f5f5;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.contactlist__dialog .MuiFormHelperText-root {
+  display: inline-block;
+  margin: 4px auto;
+  text-align: center;
+  white-space: pre;
+  color: #f50057;
+}
+.contactlist__dialog .MuiFormLabel-root.Mui-focused,
+.contactlist__dialog .MuiFilledInput-underline.Mui-focused:after {
+  color: #25D366;
+  border-color: #25D366;
+}
+.contactlist__dialog .MuiTextField-root {
+  height: 84px;
+}
+.contactlist__dialog .MuiButton-root,
+.contactlist__dialog .MuiButton-root:hover {
+  background-color: #25D366;
+  margin-right: 16px;
+}
+.contactdialog__form > button {
+  display: none;
 }
 
 /*******************
@@ -16,7 +57,7 @@
   Contact Detail Body
 *******************/
 .contact-details__body.MuiContainer-root {
-  padding-top: 5%;
+  padding-top: 10px;
 }
 .contact-details__body .MuiTypography-root > .normal{
   font-weight: normal;

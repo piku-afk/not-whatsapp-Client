@@ -25,28 +25,34 @@ export default function ChatListItem({chatScreenUserId}) {
   }, [userId, chatScreenUserId]);
 
   useEffect(() => {
+    let unsub = () => {};
     if(contact) {
+      unsub = 
       projectDatabase
         .collection('conversations')
         .doc(contact.conversationId)
         .collection('messages')
         .orderBy('timestamp', 'desc')
-        .get()
-        .then(snapshot => setLastMessage(snapshot.docs[0]?.data().body))
-        .catch(err => alert(err));
+        .onSnapshot(snapshot => setLastMessage(snapshot.docs[0]?.data()), (err => alert(err)))
+        ;
+    };
+
+    return () => {
+      unsub();
     };
 
   }, [contact]);
 
   return (
     <ListItem
+      component='li'
       divider 
       button 
       onClick={() => {
         setShowChat(true);
         setChatScreenUserId(chatScreenUserId);
       }} >
-      <ListItemText primary={contact.savedName} secondary={lastMessage} />
+      <ListItemText primary={contact.savedName} secondary={ userId === lastMessage.sender ? `You: ${lastMessage.body}` : lastMessage.body} />
     </ListItem>
   );
 }

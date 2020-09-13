@@ -5,7 +5,9 @@
   flex-direction: column;
   justify-content: center;
 }
-
+.login__container .MuiTypography-root {
+  margin-bottom: 15px;
+}
 .login__form {
   display: flex;
   flex-direction: column;

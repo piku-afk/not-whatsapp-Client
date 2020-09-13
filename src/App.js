@@ -8,7 +8,21 @@ import Slide from '@material-ui/core/Slide';
 import ContactDetails from './components/ContactDetails';
 import Login from './components/Login';
 
+import { Beforeunload } from 'react-beforeunload';
+
 function App() {
+  return (
+    <Beforeunload onBeforeunload={(e) => e.preventDefault()} >  
+      <div className="app">
+        <GetApp />
+      </div>
+    </Beforeunload>
+  );
+}
+
+export default App;
+
+function GetApp() {
   const { 
     showLogin,
     showChat, 
@@ -16,39 +30,32 @@ function App() {
   } = useGlobalStore();
 
   return (
-    <div className="app">
-      { showLogin ? <Login /> : wholeApp(showChat, showContactDetail) }  
-    </div>
-  );
-}
-
-export default App;
-
-function wholeApp(showChat, showContactDetail) {
-  return (
     <>
       <Slide
-        direction='down'
-        in={!showChat && !showContactDetail}
-        timeout={{
-          enter: 250,
-          exit: 100
-        }}
+        direction='up'
+        in={showLogin}
         mountOnEnter
         unmountOnExit>
-        <div> {/* this div is needed for transition/slide to work */}
+        <div>
+          <Login />
+        </div>
+      </Slide>
+
+      <Slide
+        direction='down'
+        in={!showChat && !showContactDetail && !showLogin}
+        mountOnEnter
+        unmountOnExit>
+        <div> 
           <MainMenu />
         </div>
       </Slide>
+      {/* {!showChat && !showContactDetail && !showLogin && <MainMenu />} */}
 
       <Slide 
         direction='up' 
         in={showChat}
-        timeout={{
-          enter: 250,
-          exit: 100
-        }}
-        mountOnEnter 
+        mountOnEnter
         unmountOnExit >
         <div> {/* this div is needed for transition/slide to work */}
           <ChatWindow />
@@ -58,11 +65,7 @@ function wholeApp(showChat, showContactDetail) {
       <Slide
         direction='up' 
         in={showContactDetail}
-        timeout={{
-          enter: 250,
-          exit: 100
-        }}
-        mountOnEnter 
+        mountOnEnter
         unmountOnExit >
           <div>{/* this div is needed for transition/slide to work */}
             <ContactDetails />

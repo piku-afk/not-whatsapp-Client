@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { projectDatabase } from '../firebaseConfig';
 import { useGlobalStore } from './GlobalStore';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
@@ -12,7 +12,7 @@ export default function ChatForm() {
 
   const { userId, showContactUser } = useGlobalStore();
   const [newMessage, setNewMessage] = useState(null);
-  const ref = useRef(null);
+  const bodyRef = useRef(null);
   
   useEffect(() => {
 
@@ -26,25 +26,32 @@ export default function ChatForm() {
 
   }, [showContactUser, newMessage])
 
-  function hanldeSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    if(ref.current.value === '') {
-      return
+    let body = bodyRef.current.value;
+    if(body === '') {
+      return;
     }
-    const body = ref.current.value;
+    
     setNewMessage({
       body,
       sender: userId,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
-    ref.current.value = '';
+    bodyRef.current.value = '';
+
+    projectDatabase.collection('conversations').doc(showContactUser.conversationId).set({
+      members: [userId, showContactUser.userId]
+    }, {merge: true});
+
+
   };
 
   return (
     <Container className='chat__form' >
-      <form onSubmit={hanldeSubmit} >
+      <form onSubmit={handleSubmit} >
         <TextField 
-          inputRef={ref} 
+          inputRef={bodyRef} 
           size='small' 
           variant='outlined' 
           placeholder='Type a message' />
