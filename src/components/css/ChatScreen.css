@@ -19,7 +19,10 @@
   bottom: 20px;
   right: 20px;
 }
-
+.chatlist__container .MuiBadge-badge {
+  background-color: #25D366;
+  color: white;
+}
 /*******************
   Chat List Dialog
 *******************/

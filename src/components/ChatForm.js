@@ -21,6 +21,12 @@ export default function ChatForm() {
         .doc(showContactUser.conversationId)
         .collection('messages')
         .add(newMessage);
+
+      projectDatabase.collection('conversations')
+        .doc(showContactUser.conversationId)
+        .set({
+          lastMessage: newMessage
+        }, {merge: true});
     }
     setNewMessage(null);
 
@@ -39,12 +45,6 @@ export default function ChatForm() {
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
     bodyRef.current.value = '';
-
-    projectDatabase.collection('conversations').doc(showContactUser.conversationId).set({
-      members: [userId, showContactUser.userId]
-    }, {merge: true});
-
-
   };
 
   return (

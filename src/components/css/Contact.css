@@ -38,6 +38,7 @@
 .contactlist__dialog .MuiButton-root:hover {
   background-color: #25D366;
   margin-right: 16px;
+  margin-bottom: 10px;
 }
 .contactdialog__form > button {
   display: none;

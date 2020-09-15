@@ -4,13 +4,14 @@ import { useGlobalStore } from './GlobalStore';
 
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
+import Badge from '@material-ui/core/Badge';
 
 export default function ChatListItem({chatScreenUserId}) {
 
-  const [contact, setContact] = useState({
-    conversationId: ' '
-  });
-  const [lastMessage, setLastMessage] = useState('');
+  const [contact, setContact] = useState();
+  const [conversation, setConversation] = useState(null);
+  const [messages, setMessages] = useState(null);
+  const [lastMessage, setLastMessage] = useState({});
   const { userId, setShowChat, setChatScreenUserId } = useGlobalStore();
 
   useEffect(() => {
@@ -26,33 +27,49 @@ export default function ChatListItem({chatScreenUserId}) {
 
   useEffect(() => {
     let unsub = () => {};
-    if(contact) {
-      unsub = 
-      projectDatabase
-        .collection('conversations')
-        .doc(contact.conversationId)
-        .collection('messages')
-        .orderBy('timestamp', 'desc')
-        .onSnapshot(snapshot => setLastMessage(snapshot.docs[0]?.data()), (err => alert(err)))
-        ;
-    };
 
+    if(contact) {
+      const docRef =  projectDatabase.collection('conversations').doc(contact.conversationId);
+      unsub = docRef.onSnapshot(doc => setConversation(doc.data())); 
+    };
     return () => {
       unsub();
     };
 
   }, [contact]);
 
+  useEffect(() => {
+    //for count of unseen messages
+    let unsub = () => {};
+    if(conversation) {
+      setLastMessage(conversation?.lastMessage);
+      unsub = projectDatabase
+        .collection('conversations')
+        .doc(contact.conversationId)
+        .collection('messages')
+        .onSnapshot(snapshot => 
+          setMessages(snapshot.docs.filter(doc => 
+            doc.data().timestamp.toMillis() > conversation[userId].lastActive?.toMillis()
+          ))
+        );
+    }
+
+    return () => {
+      unsub();
+    };
+  }, [conversation, userId, contact]);
+
   return (
     <ListItem
-      component='li'
-      divider 
+      component='li' 
+      divider
       button 
       onClick={() => {
         setShowChat(true);
         setChatScreenUserId(chatScreenUserId);
       }} >
-      <ListItemText primary={contact.savedName} secondary={ userId === lastMessage.sender ? `You: ${lastMessage.body}` : lastMessage.body} />
+      <ListItemText primary={contact?.savedName} secondary={ userId === lastMessage?.sender ? `You: ${lastMessage?.body}` : lastMessage?.body} />
+      <Badge badgeContent={messages?.length} />
     </ListItem>
   );
 }

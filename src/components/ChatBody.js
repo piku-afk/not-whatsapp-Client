@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useGlobalStore } from './GlobalStore';
 import { projectDatabase } from '../firebaseConfig';
+import firebase from 'firebase/app';
 
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -46,7 +47,20 @@ export default function ChatBody() {
     };
 
 
-  }, [showContactUser]);
+  }, [showContactUser, userId]);
+
+  useEffect(() => {
+    //to show the count of unknown messages
+    if(showContactUser.conversationId) {
+      projectDatabase.collection('conversations')
+        .doc(showContactUser.conversationId)
+        .set({
+          [userId]: {
+            lastActive: firebase.firestore.FieldValue.serverTimestamp()
+          }
+        }, {merge: true});
+    }
+  }, [showContactUser, userId, messages]);
 
   return (
     <Container ref={chatBodyRef} className='chat__body'>

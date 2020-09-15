@@ -39,17 +39,31 @@ export default function Login() {
 function SignIn({handleSignIn, setShowSignUpForm}) {
 
   const numberRef = useRef(null);
-  const [error, setError] = useState('');
+  const passwordRef = useRef(null);
+  const [error, setError] = useState({
+    number: '',
+    password: ''
+  });
 
   function handleSubmit(e) {
     e.preventDefault();
     const inputValue = numberRef.current.value;
+    const passwordValue = passwordRef.current.value;
 
     if(!inputValue) {
-      setError('Phone number cannot be empty');
+      setError({number: 'Phone number cannot be empty', password: ''});
       return;
-    }else if(inputValue.length !== 10) {
-      setError('Please enter a valid 10 digit phone number');
+    }
+    if(inputValue.length !== 10) {
+      setError({number: 'Please enter a valid 10 digit phone number', password: ''});
+      return;
+    }
+    if(!passwordValue) {
+      setError({number: '', password: 'Password cannot be empty'});
+      return;
+    }
+    if(passwordValue.length < 6) {
+      setError({number: error.name, password: 'Password should contain atleast 6 characters'});
       return;
     }
     projectDatabase
@@ -58,9 +72,13 @@ function SignIn({handleSignIn, setShowSignUpForm}) {
       .get()
       .then((doc) => {
         if(doc.exists) {
-          handleSignIn(inputValue);
+          if(doc.data().password === passwordValue) {
+            handleSignIn(inputValue);
+          } else {
+            setError({number: '', password:'Incorrect password'});
+          }
         } else {
-          setError('There is no account with this number. \nClick on create a account.');
+          setError({number: '', password: 'There is no account with this number. \nClick on create a account.'});
         }
       })
       .catch(err => alert((err)));
@@ -80,7 +98,16 @@ function SignIn({handleSignIn, setShowSignUpForm}) {
           type='number'
           size='medium'
           variant='filled' 
-          helperText={error && error}
+          helperText={error.number && error.number}
+          />
+        <TextField
+          fullWidth
+          inputRef={passwordRef}
+          label='Password'
+          type='password'
+          size='medium'
+          variant='filled'  
+          helperText={error.password && error.password}
           />
 
         <Button fullWidth size='large' variant='contained' type='submit' onClick={handleSubmit} >
@@ -99,16 +126,19 @@ function SignUp({handleSignUp}) {
 
   const [error, setError] = useState({
     name: '',
-    number: ''
+    number: '',
+    password: ''
   });
   const numberRef = useRef(null);
   const nameRef = useRef(null);
+  const passwordRef = useRef(null);
 
   function handleSubmit(e) {
     e.preventDefault();
     
     const numberValue = numberRef.current.value;
     const nameValue = nameRef.current.value;
+    const passwordValue = passwordRef.current.value;
     
     if(numberValue.length === 0) {
       setError({ name: '', number: 'Phone number cannot be empty' });
@@ -122,6 +152,14 @@ function SignUp({handleSignUp}) {
       setError({ name: '', number: 'Enter 10 digits valid phone number' });
       return;
     }
+    if(!passwordValue) {
+      setError({name: '', number: '', password: 'Password cannot be empty'});
+      return;
+    }
+    if(passwordValue.length < 6) {
+      setError({name: '', number: '', password: 'Password should be atleast 6 characters long'});
+      return;
+    }
 
     projectDatabase
       .collection('users')
@@ -129,13 +167,14 @@ function SignUp({handleSignUp}) {
       .get()
       .then((doc) => {
         if(doc.exists) {
-          setError({name: 'There is already a account with this number.\nClick on Sign In to log into your account.', number: ''});
+          setError({password: 'There is already a account with this number.\nClick on Sign In to log into your account.', name: '', number: ''});
         } else {
           projectDatabase
             .collection('users')
             .doc(numberValue.toString())
             .set({
               name: nameValue,
+              password: passwordValue,
               conversations: [],
               contacts: []
             });
@@ -155,16 +194,22 @@ function SignUp({handleSignUp}) {
           inputRef={numberRef}
           label='Phone number'
           type='number'
-          size='medium'
           variant='filled'
           helperText={error.number} />
         <TextField
           fullWidth
           inputRef={nameRef}
           label='Name'
-          size='medium'
           variant='filled' 
           helperText={error.name} />
+        <TextField
+          fullWidth
+          inputRef={passwordRef}
+          label='Password'
+          type='password'
+          variant='filled'
+          helperText={error.password && error.password} />
+
           <Button size='large' fullWidth type='submit' onClick={handleSubmit} >
             Add account
           </Button>

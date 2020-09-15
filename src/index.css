@@ -17,3 +17,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.MuiFormLabel-root.Mui-focused,
+.MuiFilledInput-underline.Mui-focused:after {
+  color: #25D366 !important;  
+  border-color: #25D366 !important;
+}
