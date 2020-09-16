@@ -12,11 +12,11 @@ import { Beforeunload } from 'react-beforeunload';
 
 function App() {
   return (
-    <Beforeunload onBeforeunload={(e) => e.preventDefault()} >  
+    // <Beforeunload onBeforeunload={(e) => e.preventDefault()} >  
       <div className="app">
         <GetApp />
       </div>
-    </Beforeunload>
+  // </Beforeunload>
   );
 }
 

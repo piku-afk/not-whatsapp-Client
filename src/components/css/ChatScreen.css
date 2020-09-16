@@ -106,7 +106,7 @@
   flex: 1;
 }
 .chat__form .MuiOutlinedInput-root {
-  border-radius: 50px;
+  border-radius: 20px;
   background-color: white;
 
 }
@@ -115,5 +115,6 @@
 }
 .chat__form .MuiIconButton-root {
   background-color: #075E54 !important;
-  color: white
+  color: white;
+  align-self: flex-end;
 }

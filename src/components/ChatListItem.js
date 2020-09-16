@@ -68,8 +68,15 @@ export default function ChatListItem({chatScreenUserId}) {
         setShowChat(true);
         setChatScreenUserId(chatScreenUserId);
       }} >
-      <ListItemText primary={contact?.savedName} secondary={ userId === lastMessage?.sender ? `You: ${lastMessage?.body}` : lastMessage?.body} />
+      <ListItemText primary={contact?.savedName} secondary={ userId === lastMessage?.sender ? `You: ${truncateLastMessage(lastMessage?.body, 45)}` : truncateLastMessage(lastMessage?.body, 50)} />
       <Badge badgeContent={messages?.length} />
     </ListItem>
   );
+}
+
+function truncateLastMessage(str, len) {
+  if(str && str.length > len) {
+    return str.substring(0, len) + '...';
+  }
+  return str;
 }

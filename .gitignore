@@ -24,3 +24,8 @@ yarn-error.log*
 
 # firebase
 firebaseConfig.js
+
+#images HTU
+src/images
+HowToUse.js
+HowToUse.css

@@ -6,7 +6,8 @@ export function useGlobalStore() {
   return useContext(GlobalContext);
 }
 
-const prefixId = 'not-whatsapp-id';
+const prefixId = 'not-WhatsApp-id';
+const prefixHTU = 'not-WhatsApp-show-HTU'
 
 export default function GlobalStore({children}) {
 
@@ -29,6 +30,15 @@ export default function GlobalStore({children}) {
   const [showChat, setShowChat] = useState(false);
   const [showContactDetail, setShowContactDetail] = useState(false);
   const [showContactUser, setShowContactUser] = useState({});
+  const [tabValue, setTabValue] = useState(0);
+  const [showHTU, setShowHTU] = useState(() => {
+    const json = localStorage.getItem(prefixHTU);
+    if(json !== null) {
+      return JSON.parse(json);
+    }
+    return true;
+  });
+
 
   const value = {
     userId,
@@ -42,12 +52,17 @@ export default function GlobalStore({children}) {
     showContactDetail,
     setShowContactDetail,
     chatScreenUserId,
-    setChatScreenUserId
+    setChatScreenUserId,
+    tabValue, 
+    setTabValue,
+    showHTU,
+    setShowHTU
   };
 
   useEffect(() => {
     localStorage.setItem(prefixId, JSON.stringify(userId));
-  }, [userId]);
+    localStorage.setItem(prefixHTU, JSON.stringify(showHTU));
+  }, [userId, showHTU]);
   
   return (
     <GlobalContext.Provider value={value}>

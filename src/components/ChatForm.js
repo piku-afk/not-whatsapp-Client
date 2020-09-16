@@ -47,10 +47,19 @@ export default function ChatForm() {
     bodyRef.current.value = '';
   };
 
+  function enterSubmit(e) {
+    if(e.keyCode === 13) {
+      handleSubmit(e);
+    };
+  }
+
   return (
     <Container className='chat__form' >
       <form onSubmit={handleSubmit} >
         <TextField 
+          multiline
+          rowsMax={3}
+          onKeyDown={enterSubmit}
           inputRef={bodyRef} 
           size='small' 
           variant='outlined' 

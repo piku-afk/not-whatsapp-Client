@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './css/MainMenu.css'
 
 import SwipeableViews from 'react-swipeable-views';
@@ -7,6 +7,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ChatList from './ChatList';
 import ContactList from './ContactList';
+import { useGlobalStore } from './GlobalStore';
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -21,7 +22,7 @@ function TabPanel(props) {
 }
 
 export default function MainContent() {
-  const [tabValue, setTabValue] = useState(0);
+  const {tabValue, setTabValue} = useGlobalStore();
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
