@@ -12,7 +12,7 @@ export default function ChatListItem({chatScreenUserId}) {
   const [conversation, setConversation] = useState(null);
   const [messages, setMessages] = useState(null);
   const [lastMessage, setLastMessage] = useState({});
-  const { userId, setShowChat, setChatScreenUserId } = useGlobalStore();
+  const { userId, setShowChat, setChatScreenUserId, getTime } = useGlobalStore();
 
   useEffect(() => {
     projectDatabase
@@ -53,11 +53,17 @@ export default function ChatListItem({chatScreenUserId}) {
           ))
         );
     }
-
     return () => {
       unsub();
     };
   }, [conversation, userId, contact]);
+
+  
+  function getSecondary() {
+    const message = userId === lastMessage?.sender ? `You: ${truncateLastMessage(lastMessage?.body, 35)}` : truncateLastMessage(lastMessage?.body, 40);
+    
+    return getTime(lastMessage.timestamp) + ': ' + message; 
+  };
 
   return (
     <ListItem
@@ -68,7 +74,7 @@ export default function ChatListItem({chatScreenUserId}) {
         setShowChat(true);
         setChatScreenUserId(chatScreenUserId);
       }} >
-      <ListItemText primary={contact?.savedName} secondary={ userId === lastMessage?.sender ? `You: ${truncateLastMessage(lastMessage?.body, 45)}` : truncateLastMessage(lastMessage?.body, 50)} />
+      <ListItemText primary={contact?.savedName} secondary={lastMessage && getSecondary()} />
       <Badge badgeContent={messages?.length} />
     </ListItem>
   );

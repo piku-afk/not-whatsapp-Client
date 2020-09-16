@@ -39,6 +39,26 @@ export default function GlobalStore({children}) {
     return true;
   });
 
+  function getTime(time) {
+    if(time) {
+      const firebaseDate = time.toDate();
+      const newDate = new Date(firebaseDate);
+      const hrs = newDate.getHours();
+      const mins = newDate.getMinutes();
+      const today = new Date();
+      if(today.getDate() === newDate.getDate()) {
+        return `${hrs}:${mins} `;
+      } else if (today.getDate() > newDate.getDate() && today.getDate() - newDate.getDate() === 1) {
+        return 'Yesterday';
+      } else {
+        const date = newDate.getDate();
+        const month = newDate.getMonth() + 1;
+        const year = newDate.getFullYear();
+        return `${date}/${month}/${year}`;
+      }
+    }
+    return ' ';
+  }
 
   const value = {
     userId,
@@ -56,7 +76,8 @@ export default function GlobalStore({children}) {
     tabValue, 
     setTabValue,
     showHTU,
-    setShowHTU
+    setShowHTU,
+    getTime
   };
 
   useEffect(() => {

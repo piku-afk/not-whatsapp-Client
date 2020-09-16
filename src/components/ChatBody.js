@@ -16,7 +16,7 @@ export default function ChatBody() {
   const [messages, setMessages] = useState([]);
   const chatBodyRef = useRef(null);
   const bottomRef = useRef(null);
-  const { userId, showContactUser } = useGlobalStore();
+  const { userId, showContactUser, getTime } = useGlobalStore();
 
   useEffect(() => {
     let unsub = () => {};
@@ -65,19 +65,20 @@ export default function ChatBody() {
   return (
     <Container ref={chatBodyRef} className='chat__body'>
       {messages.map(message => (
-        <Message key={message.id} message={message} userId={userId} />
+        <Message key={message.id} message={message} userId={userId} getTime={getTime} />
       ))}
       <div ref={bottomRef} className='bottom-div' />
     </Container>
   );
 }
 
-function Message({message, userId}) {
+function Message({message, userId, getTime}) {
   const sender = message.sender === userId;
   return (
       <Paper className={`${sender && 'right'}`} elevation={1}>
         <Typography variant='body1'>
           {message?.body}
+        <Typography variant='caption' >{getTime(message.timestamp)}</Typography>
         </Typography>
       </Paper>
   );

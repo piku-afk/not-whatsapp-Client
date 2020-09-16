@@ -81,6 +81,12 @@
   align-self: flex-end;
   background-color: #DCF8C6;
 }
+.chat__body .MuiTypography-caption {
+  display: block;
+}
+.chat__body .right .MuiTypography-caption {
+  text-align: right;
+}
 
 /*******************
   Chat Form
